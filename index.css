@@ -1,0 +1,37 @@
+.login-image {
+    border-radius: 50%;
+    width: 20%;
+    height: 50%;
+}
+
+.login {
+    background-color: #FFEDB8;
+    border-radius: 5%;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 20%;
+    padding: 30px;
+    border: 2px solid #FFCA2C;
+}
+
+.land-page {
+    background-color: #FFEDB8;
+}
+
+.lp-image {
+    margin: 0 auto;
+}
+
+.pets-list-container {}
+
+
+.td-list-image {
+    background-color: rebeccapurple;
+    width: 10%;
+}
+
+.list-image {
+    border-radius: 50%;
+    width: 100%;
+    height: 50%;
+}

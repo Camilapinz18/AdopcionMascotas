@@ -16,247 +16,370 @@
   </head>
 
   <body>
-    <div id="app">
-      <div class="text-center" v-if="isLogin">
-        <form class="form-signin login">
-          <img
-            class="mb-4 login-image"
-            src="./images/foto1.png"
-            alt=""
-            width="72"
-            height="72"
-          />
-          <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-          <label for="username" class="sr-only">Username</label>
-          <input
-            type="text"
-            id="username"
-            class="form-control"
-            placeholder="Username"
-            required
-            autofocus
-            v-model="username"
-          />
-          <label for="inputPassword" class="sr-only">Password</label>
-          <input
-            type="password"
-            id="inputPassword"
-            class="form-control"
-            placeholder="Password"
-            required
-            v-model="password"
-          />
+    <div id="app" class="all">
+      <div class="container main-container">
+        <div class="text-center main" v-if="isLogin">
+          <div class="login">
+            <form class="form-signin">
+              <img
+                class="mb-4 login-image"
+                src="./images/foto1.png"
+                alt=""
+                width="72"
+                height="72"
+              />
+              <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+              <label for="username" class="sr-only">Username</label>
+              <input
+                type="text"
+                id="username"
+                class="form-control"
+                placeholder="Username"
+                required
+                autofocus
+                v-model="username"
+              />
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input
+                type="password"
+                id="inputPassword"
+                class="form-control"
+                placeholder="Password"
+                required
+                v-model="password"
+              />
 
-          <button
-            @click.prevent="login"
-            class="btn btn-lg btn-warning btn-block mt-3"
-            type="submit"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-      <!-- LANDPAGE -->
-      <div class="container pets-list-container" v-if="isLandPage">
-        <!-- NAVBAR -->
-        <div class="container land-page">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Navbar</a>
               <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
+                @click.prevent="login"
+                class="btn btn-lg btn-success btn-block mt-3"
+                type="submit"
               >
-                <span class="navbar-toggler-icon"></span>
+                Login
               </button>
-              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                  <a class="nav-link active" aria-current="page" href="#"
-                    >Home</a
-                  >
-                  <a @click.prevent="showAdopt" class="nav-link" href="#">Adoptar</a>
-                  <a @click.prevent="giveForAdoption" class="nav-link" href="#"
-                    >Dar en adopcion</a
-                  >
-                  <a v-if="isAdminList" @click.prevent="giveForAdoption" class="nav-link" href="#"
-                    >Ver listado</a
-                  > 
+            </form>
+          </div>
+        </div>
+        <!-- LANDPAGE -->
+        <div class="container pets-list-container" v-if="isLandPage">
+          <!-- NAVBAR -->
+          <div class="container land-page">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+              <div class="container-fluid">
+                <img class="logo-img" src="./images/logo.png" />
+                <button
+                  class="navbar-toggler"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarNavAltMarkup"
+                  aria-controls="navbarNavAltMarkup"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a @click.prevent="showAdopt" class="nav-link" href="#"
+                      >Adoptar</a
+                    >
+                    <a
+                      @click.prevent="giveForAdoption"
+                      class="nav-link"
+                      href="#"
+                      >Dar en adopcion</a
+                    >
+                    <a
+                      v-if="isAdmin"
+                      @click.prevent="showAdminList"
+                      class="nav-link"
+                      href="#"
+                      >Ver listado</a
+                    >
+                  </div>
+                </div>
+                <div class="ms-auto order-last">
                   <button @click="logout" type="button" class="btn btn-danger">
                     Logout
                   </button>
                 </div>
               </div>
-            </div>
-          </nav>
-          <img class="lp-image" src="./images/land-page.jpg" />
-        </div>
-      </div>
-
-      <!-- listado -->
-      <div v-if="isPetList">
-        <div class="row pets-list">
-          <div
-            v-for="pet in availablePets"
-            class="card m-2"
-            style="width: 18rem"
-          >
-            <img class="card-img-top" :src="pet.image" alt="Card image cap" />
-            <div class="card-body">
-              <h5 class="card-title">{{ pet.name }}</h5>
-              <p class="card-text">{{ pet.description }} {{ pet.specie }}</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <b>Breed:</b> {{ pet.breed }} <b>Color:</b> {{ pet.color }}
-              </li>
-              <li class="list-group-item">
-                <b>Gender:</b> {{ pet.gender }} <b>Age:</b> {{ pet.age }} months
-              </li>
-              <li class="list-group-item"></li>
-            </ul>
-
-            <button @click="adopt(pet)" type="button" class="btn btn-warning">Adopt!</button>
+            </nav>
+            <img class="lp-image" src="./images/bg-landpage.jpeg" />
           </div>
         </div>
-      </div>
-      <!-- GIVE FOR ADOPTION -->
-      <div v-if="isGiveForAdoption" class="container">
-        <select
-          v-model="specie"
-          class="form-select"
-          aria-label="Default select example"
+
+        <!-- listado -->
+        <div v-if="isPetList">
+          <div class="title-section mt-3 mb-3">
+            <h3>Adopt!</h3>
+          </div>
+          <div class="row pets-list">
+            <div
+              v-for="pet in availablePets"
+              class="card m-2 p-3"
+              style="width: 18rem"
+            >
+              <img class="card-img-top" :src="pet.image" alt="Card image cap" />
+              <div class="card-body">
+                <h5 class="card-title">{{ pet.name }}</h5>
+                <p class="card-text">{{ pet.description }} {{ pet.specie }}</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <b>Breed:</b> {{ pet.breed }} <b>Color:</b> {{ pet.color }}
+                </li>
+                <li class="list-group-item">
+                  <b>Gender:</b> {{ pet.gender }} <b>Age:</b>
+                  {{ pet.age }} months
+                </li>
+                <li class="list-group-item"></li>
+              </ul>
+
+              <button @click="adopt(pet)" type="button" class="btn btn-success">
+                Adopt!
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- UPLOAD IMAGE -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
         >
-          <option selected>Open this select menu</option>
-          <option value="1">Dog</option>
-          <option value="2">Cat</option>
-        </select>
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Name</span>
-          <input
-            v-model="name"
-            type="text"
-            class="form-control"
-            placeholder="firulais"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload image</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div
+                  v-if="specie==='dog'"
+                  v-for="image in imagesToUploadDogs"
+                  class="card"
+                  style="width: 18rem"
+                >
+                  <div>
+                    <img :src="image.url" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                      <a
+                        @click="assignImage(image)"
+                        href="#"
+                        class="btn btn-success"
+                        >Select</a
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  v-if="specie==='cat'"
+                  v-for="image in imagesToUploadCats"
+                  class="card"
+                  style="width: 18rem"
+                >
+                  <div>
+                    <img :src="image.url" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                      <a
+                        @click="assignImage(image)"
+                        href="#"
+                        class="btn btn-success"
+                        >Select</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" class="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Breed</span>
-          <input
-            v-model="breed"
-            type="text"
-            class="form-control"
-            placeholder="beagle"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Color</span>
-          <input
-            v-model="color"
-            type="text"
-            class="form-control"
-            placeholder="multicolor"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Age</span>
-          <input
-            v-model="age"
-            type="text"
-            class="form-control"
-            placeholder="8 months"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-
-        <select
-          v-model="gender"
-          class="form-select"
-          aria-label="Default select example"
+        <!-- GIVE FOR ADOPTION -->
+        <div
+          v-if="isGiveForAdoption"
+          class="container give pt-3 align-content-center"
         >
-          <option selected>Open this select menu</option>
-          <option value="1">Female</option>
-          <option value="2">Male</option>
-        </select>
+          <div class="title-section">
+            <h3>Give for adoption</h3>
+          </div>
 
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Description</span>
-          <input
-            v-model="description"
-            type="text"
-            class="form-control"
-            placeholder="Funny"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
+          <select
+            v-model="specie"
+            class="form-select mt-3 mb-3"
+            aria-label="Default select example"
+          >
+            <option selected value="dog">Dog</option>
+            <option value="cat">Cat</option>
+          </select>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Name</span>
+            <input
+              v-model="name"
+              type="text"
+              class="form-control"
+              placeholder="firulais"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Breed</span>
+            <input
+              v-model="breed"
+              type="text"
+              class="form-control"
+              placeholder="beagle"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Color</span>
+            <input
+              v-model="color"
+              type="text"
+              class="form-control"
+              placeholder="multicolor"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Age</span>
+            <input
+              v-model="age"
+              type="text"
+              class="form-control"
+              placeholder="8 months"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+
+          <select
+            v-model="gender"
+            class="form-select mt-3 mb-3"
+            aria-label="Default select example"
+          >
+            <option selected value="1">Female</option>
+            <option value="2">Male</option>
+          </select>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Description</span>
+            <input
+              v-model="description"
+              type="text"
+              class="form-control"
+              placeholder="Funny"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+
+          <div class="card mt-3" style="width: 18rem">
+            <img :src="image?.url" class="card-img-top" alt="..." />
+            <div class="card-body">
+              <button
+                type="button"
+                class="btn btn-warning"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                @click="assignImage"
+              >
+                Upload image
+              </button>
+            </div>
+          </div>
+
+          <button
+            @click.prevent="addPet"
+            type="button"
+            class="btn btn-success m-3"
+          >
+            Save
+          </button>
         </div>
 
-        <button type="button" class="btn btn-warning">Upload image</button>
-
-        <button @click.prevent="addPet" type="button" class="btn btn-warning">
-          Save
-        </button>
-      </div>
-
-      <!-- LIST ADMIN -->
-      <div v-if="isAdminList">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Photo</th>
-              <th scope="col">Name</th>
-              <th scope="col">Specie</th>
-              <th scope="col">Breed</th>
-              <th scope="col">Gender</th>
-              <th scope="col">Age</th>
-              <th scope="col">Color</th>
-              <th scope="col">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="pet in availablePets">
-              <th scope="row">1</th>
-              <td class="td-list-image">
-                <img class="list-image" :src="pet.image" />
-              </td>
-              <td>{{ pet.name }}</td>
-              <td>{{ pet.specie }}</td>
-              <td>{{ pet.breed }}</td>
-              <td>{{ pet.gender }}</td>
-              <td>{{ pet.age }}</td>
-              <td>{{ pet.color }}</td>
-              <td>{{ pet.status }}</td>
-            </tr>
-            <tr v-for="pet in adoptedPets">
-              <th scope="row">1</th>
-              <td class="td-list-image">
-                <img class="list-image" :src="pet.image" />
-              </td>
-              <td>{{ pet.name }}</td>
-              <td>{{ pet.specie }}</td>
-              <td>{{ pet.breed }}</td>
-              <td>{{ pet.gender }}</td>
-              <td>{{ pet.age }}</td>
-              <td>{{ pet.color }}</td>
-              <td>{{ pet.status }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- LIST ADMIN -->
+        <div v-if="isAdmin">
+          <div class="title-section mt-3">
+            <h3>Pets list</h3>
+          </div>
+          <table class="table list-pets mt-3">
+            <thead>
+              <tr>
+                <th scope="col">Photo</th>
+                <th scope="col">Name</th>
+                <th scope="col">Specie</th>
+                <th scope="col">Breed</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Age</th>
+                <th scope="col">Color</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="pet in availablePets">
+                <td class="td-list-image">
+                  <img class="list-image" :src="pet.image" />
+                </td>
+                <td>{{ pet.name }}</td>
+                <td>{{ pet.specie }}</td>
+                <td>{{ pet.breed }}</td>
+                <td>{{ pet.gender }}</td>
+                <td>{{ pet.age }}</td>
+                <td>{{ pet.color }}</td>
+                <td>
+                  <b>
+                    {{ pet.status }}
+                  </b>
+                </td>
+              </tr>
+              <tr v-for="petA in adoptedPets">
+                <td class="td-list-image">
+                  <img class="list-image" :src="petA.image" />
+                </td>
+                <td>{{ petA.name }}</td>
+                <td>{{ petA.specie }}</td>
+                <td>{{ petA.breed }}</td>
+                <td>{{ petA.gender }}</td>
+                <td>{{ petA.age }}</td>
+                <td>{{ petA.color }}</td>
+                <td>
+                  <b>
+                    {{ petA.status }}
+                  </b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

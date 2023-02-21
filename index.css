@@ -1,3 +1,30 @@
+.all {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+.main-container {
+    height: 100%;
+    width: 100%;
+
+    background-color: white;
+}
+
+.main {
+    background-image: url('./images/bg-login.png');
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+}
+
+.logo-img {
+    width: 10%;
+
+}
+
 .login-image {
     border-radius: 50%;
     width: 20%;
@@ -5,24 +32,36 @@
 }
 
 .login {
-    background-color: #FFEDB8;
+
+    background-color: #8EBC3C;
     border-radius: 5%;
     width: 50%;
     margin: 0 auto;
-    margin-top: 20%;
+    margin-bottom: 20%;
     padding: 30px;
-    border: 2px solid #FFCA2C;
+
 }
 
 .land-page {
-    background-color: #FFEDB8;
+  
+    width: 100%;
 }
 
 .lp-image {
     margin: 0 auto;
+    width: 100%;
 }
 
-.pets-list-container {}
+.pets-list{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    background-color: #8EBC3C;
+}
+
+.pet-card{
+    background-color: yellow;
+}
 
 
 .td-list-image {
@@ -34,4 +73,35 @@
     border-radius: 50%;
     width: 100%;
     height: 50%;
+}
+
+.list-pets {
+    margin: 0 auto;
+    width: 100%;
+   
+    background-color: #8EBC3C;
+    margin: 0 auto;
+
+    border-radius: 5px;
+}
+
+.title-section {
+    background-color: #157347;
+    border-radius: 5px;
+    width: 20%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 6px;
+    color: white
+}
+
+.table td,
+.table th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.give{
+    width: 100%;
+    background-color: #8EBC3C;
 }

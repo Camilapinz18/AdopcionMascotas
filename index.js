@@ -41,69 +41,69 @@ const app = Vue.createApp({
       availablePets: [
         {
           name: 'Pancho',
-          specie: 'dog',
-          breed: 'creole',
-          gender: 'male',
-          color: 'black',
+          specie: 'Perro',
+          breed: 'Labrador',
+          gender: 'Macho',
+          color: 'Negro',
           age: '6',
-          description: 'Funny',
-          image: './images/perro1.jpg',
-          status: 'available'
+          description: 'Divertido, muy activo, necesita de mucho ejercicio',
+          image: './images/perro1.jfif',
+          status: 'Disponible'
         },
         {
           name: 'Tata',
-          specie: 'dog',
-          breed: 'creole',
-          gender: 'female',
-          color: 'Brown',
+          specie: 'Perro',
+          breed: 'Labrador',
+          gender: 'Hembra',
+          color: 'Negro',
           age: '6',
-          description: 'Funny',
-          image: './images/perro2.jpg',
-          status: 'available'
+          description: 'Calmada, le gusta dormir, le gusta la compañia',
+          image: './images/perro2.webp',
+          status: 'Disponible'
         },
         {
           name: 'Poli',
-          specie: 'dog',
-          breed: 'creole',
-          gender: 'female',
-          color: 'white',
+          specie: 'Perro',
+          breed: 'Crillo',
+          gender: 'Hembra',
+          color: 'Multicolor',
           age: '6',
-          description: 'Funny',
+          description: 'Activa, alerta, le gusta cuidar su territorio',
           image: './images/perro3.jpg',
-          status: 'available'
+          status: 'Disponible'
         },
         {
           name: 'Pepe',
-          specie: 'dog',
-          breed: 'creole',
-          gender: 'male',
-          color: 'black',
+          specie: 'Gato',
+          breed: 'Criollo',
+          gender: 'Macho',
+          color: 'Amarillo',
           age: '6',
-          description: 'Funny',
-          image: './images/perro1.jpg',
-          status: 'available'
+          description: 'Independiente, solitario',
+          image: './images/gato1.jpg',
+          status: 'Disponible'
         },
         {
           name: 'Luna',
-          specie: 'dog',
-          breed: 'creole',
-          gender: 'female',
-          color: 'Brown',
+          specie: 'Gato',
+          breed: 'Criollo',
+          gender: 'Hembra',
+          color: 'Gris',
           age: '6',
-          description: 'Funny',
-          image: './images/perro2.jpg',
-          status: 'available'
+          description: 'Le gusta la compañia, las caricias. Es muy cercana',
+          image: './images/gato2.jfif',
+          status: 'Disponible'
         },
         {
           name: 'Shaggy',
-          specie: 'dog',
-          breed: 'creole',
-          gender: 'female',
-          color: 'white',
-          age: '6',
-          description: 'Funny',
-          image: './images/perro3.jpg',
-          status: 'available'
+          specie: 'Perro',
+          breed: 'Beagle',
+          gender: 'Macho',
+          color: 'Multicolor',
+          age: '12',
+          description: 'Muy activo, le gusta correr y morder cosas',
+          image: './images/perro4.jpg',
+          status: 'Disponible'
         }
       ],
       adoptedPets: [],
@@ -128,33 +128,7 @@ const app = Vue.createApp({
   },
   methods: {
     async fetchUsers () {
-      // if (this.users.length <= 15 && this.users.length > 1) {
-      //   console.log('Ya hay usuarios')
-      // } else if (this.users.length < 1) {
-      //   await fetch('https://randomuser.me/api/?results=15')
-      //     .then(response => response.json())
-      //     .then(data =>
-      //       data.results.map(user => {
-      //         this.users.push({
-      //           photo: user.picture.thumbnail,
-      //           name: `${user.name.first + ' ' + user.name.last}`,
-      //           age: user.dob.age,
-      //           country: `https://countryflagsapi.com/png/${user.location.country}`,
-      //           email: user.email,
-      //           phone: user.cell,
-      //           username: user.login.username,
-      //           password: user.login.password,
-      //           gender: user.gender
-      //         })
-      //       })
-      //     )
-      //   //this.getCountryFlag()
-      //   localStorage.setItem('users', JSON.stringify(this.users))
-
-      //   console.log('length', this.users.length)
-      // }
-      console.log('estoy en fetch users')
-
+    
       try {
         const response = await fetch('https://randomuser.me/api/?results=10')
         const users = await response.json()
@@ -195,7 +169,11 @@ const app = Vue.createApp({
         this.specie === undefined ||
         this.specie === null
       ) {
-        alert('please select a specie')
+        Swal.fire(
+          'Seleccione una especie',
+          'Por favor seleccione una especie para continuar',
+          'warning'
+        )
       } else {
       }
     },
@@ -213,7 +191,11 @@ const app = Vue.createApp({
         this.password === undefined ||
         this.password === null
       ) {
-        alert('you must fill all the fields to continue')
+        Swal.fire(
+          'Datos incompletos',
+          'Por favor completa todos los datos para iniciar sesión',
+          'warning'
+        )
       } else {
         const userExists = this.users.find(user => {
           return user.username == this.username
@@ -225,19 +207,34 @@ const app = Vue.createApp({
               this.currentUser = userExists
               this.isLogin = false
               this.isLandPage = true
-              this.isAdminList = true
+              this.isAdminList = true 
+              this.isAdmin=true
+              this.isPetList=false
+              this.isGiveForAdoption=false
               console.log('isAdminList', this.isAdminList)
             } else if (userExists.role === 'client') {
               this.currentUser = userExists
               this.isLogin = false
               this.isLandPage = true
               this.isPetList = true
+              this.isAdmin=false
             }
+
+            this.password=''
+            this.username=''
           } else {
-            alert('wrong password')
+            Swal.fire(
+              'Contraseña incorrecta',
+              'Por favor verifica tu contraseña',
+              'warning'
+            )
           }
         } else {
-          alert('user doenst exists')
+          Swal.fire(
+            'EL usuario no existe',
+            'Por favor verifica que el usuario esté ingresado correctamente',
+            'warning'
+          )
         }
       }
 
@@ -251,6 +248,7 @@ const app = Vue.createApp({
         this.isLandPage = true
         if (isUserLogged.role === 'admin') {
           this.isAdmin = true
+          this.isAdminList=true
           console.log(this.isAdmin, 'admin')
         } else if (isUserLogged.role === 'client') {
           this.isAdmin = false
@@ -269,12 +267,18 @@ const app = Vue.createApp({
       if (confirmLogout) {
         localStorage.removeItem('currentUser')
         this.isLandPage = false
+        this.isAdmin=false
+        this.isAdminList=false
+        this.isGiveForAdoption=false
+        this.isPetList=false
         this.isLogin = true
+      
       }
     },
     giveForAdoption () {
       console.log('give')
       this.isPetList = false
+      this.isAdminList = false 
       this.isGiveForAdoption = true
     },
     addPet () {
@@ -302,7 +306,11 @@ const app = Vue.createApp({
         this.description === undefined ||
         this.description === null
       ) {
-        alert('you must fill all the fields to continue')
+        Swal.fire(
+          'Diligencia el formulario',
+          'Por favor diligencia el formulario en su totalidad para continuar',
+          'warning'
+        )
       } else {
         this.availablePets.push({
           name: this.name,
@@ -313,10 +321,14 @@ const app = Vue.createApp({
           age: this.age,
           description: this.description,
           image: this.image.url,
-          status: 'available'
+          status: 'Disponible'
         })
 
-        alert('Pet added correctly')
+        Swal.fire(
+          'Mascota añadida!',
+          'Mascota añadida correctamente!',
+          'success'
+        )
         console.log('PETS', this.availablePets)
         localStorage.setItem('pets', JSON.stringify(this.availablePets))
 
@@ -354,6 +366,7 @@ const app = Vue.createApp({
     showAdopt () {
       this.isPetList = true
       this.isGiveForAdoption = false
+      this.isAdminList=false
     },
     adopt (pet) {
       const result = confirm('Are you sure you want to adopt this pet?')
@@ -364,7 +377,7 @@ const app = Vue.createApp({
           return petAvailable.name === pet.name
         })
 
-        adoptedPet.status = 'adopted'
+        adoptedPet.status = 'Adoptado'
 
         this.adoptedPets.push(adoptedPet)
 
@@ -379,6 +392,8 @@ const app = Vue.createApp({
     },
     showAdminList () {
       this.isAdminList = true
+      this.isGiveForAdoption=false
+      this.isPetList=false
     }
   },
 

@@ -128,7 +128,6 @@ const app = Vue.createApp({
   },
   methods: {
     async fetchUsers () {
-    
       try {
         const response = await fetch('https://randomuser.me/api/?results=10')
         const users = await response.json()
@@ -207,21 +206,21 @@ const app = Vue.createApp({
               this.currentUser = userExists
               this.isLogin = false
               this.isLandPage = true
-              this.isAdminList = true 
-              this.isAdmin=true
-              this.isPetList=false
-              this.isGiveForAdoption=false
+              this.isAdminList = true
+              this.isAdmin = true
+              this.isPetList = false
+              this.isGiveForAdoption = false
               console.log('isAdminList', this.isAdminList)
             } else if (userExists.role === 'client') {
               this.currentUser = userExists
               this.isLogin = false
               this.isLandPage = true
               this.isPetList = true
-              this.isAdmin=false
+              this.isAdmin = false
             }
 
-            this.password=''
-            this.username=''
+            this.password = ''
+            this.username = ''
           } else {
             Swal.fire(
               'Contraseña incorrecta',
@@ -248,7 +247,7 @@ const app = Vue.createApp({
         this.isLandPage = true
         if (isUserLogged.role === 'admin') {
           this.isAdmin = true
-          this.isAdminList=true
+          this.isAdminList = true
           console.log(this.isAdmin, 'admin')
         } else if (isUserLogged.role === 'client') {
           this.isAdmin = false
@@ -262,23 +261,29 @@ const app = Vue.createApp({
       //console.log(this.currentUser,"current")
     },
     logout () {
-      const confirmLogout = confirm('Are yoo sure you want to logout?')
-
-      if (confirmLogout) {
-        localStorage.removeItem('currentUser')
-        this.isLandPage = false
-        this.isAdmin=false
-        this.isAdminList=false
-        this.isGiveForAdoption=false
-        this.isPetList=false
-        this.isLogin = true
-      
-      }
+      Swal.fire({
+        title: 'Estas seguro de cerrar sesión?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Salir',
+        denyButtonText: `No salir`
+      }).then(result => {
+        if (result.isConfirmed) {
+          localStorage.removeItem('currentUser')
+          this.isLandPage = false
+          this.isAdmin = false
+          this.isAdminList = false
+          this.isGiveForAdoption = false
+          this.isPetList = false
+          this.isLogin = true
+        } else if (result.isDenied) {
+        }
+      })
     },
     giveForAdoption () {
       console.log('give')
       this.isPetList = false
-      this.isAdminList = false 
+      this.isAdminList = false
       this.isGiveForAdoption = true
     },
     addPet () {
@@ -366,34 +371,43 @@ const app = Vue.createApp({
     showAdopt () {
       this.isPetList = true
       this.isGiveForAdoption = false
-      this.isAdminList=false
+      this.isAdminList = false
     },
     adopt (pet) {
-      const result = confirm('Are you sure you want to adopt this pet?')
+      const result = Swal.fire({
+        title: 'Vas a adoptar a esta mascota!',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar',
+        denyButtonText: `Volver`
+      }).then(result => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          const adoptedPet = this.availablePets.find(petAvailable => {
+            return petAvailable.name === pet.name
+          })
 
-      console.log('PETTT', pet)
-      if (result) {
-        const adoptedPet = this.availablePets.find(petAvailable => {
-          return petAvailable.name === pet.name
-        })
+          adoptedPet.status = 'Adoptado'
 
-        adoptedPet.status = 'Adoptado'
+          this.adoptedPets.push(adoptedPet)
 
-        this.adoptedPets.push(adoptedPet)
+          console.log('adoptedPetsss', this.adoptedPets)
+          localStorage.setItem('adoptedPets', JSON.stringify(this.adoptedPets))
+          this.availablePets = this.availablePets.filter(petAvailable => {
+            return petAvailable.name !== pet.name
+          })
 
-        console.log('adoptedPetsss', this.adoptedPets)
-        localStorage.setItem('adoptedPets', JSON.stringify(this.adoptedPets))
-        this.availablePets = this.availablePets.filter(petAvailable => {
-          return petAvailable.name !== pet.name
-        })
+          localStorage.setItem('pets', JSON.stringify(this.availablePets))
 
-        localStorage.setItem('pets', JSON.stringify(this.availablePets))
-      }
+          Swal.fire('Mascota adoptada!', '', 'success')
+        } else if (result.isDenied) {
+        }
+      })
     },
     showAdminList () {
       this.isAdminList = true
-      this.isGiveForAdoption=false
-      this.isPetList=false
+      this.isGiveForAdoption = false
+      this.isPetList = false
     }
   },
 
@@ -403,7 +417,6 @@ const app = Vue.createApp({
     this.checkIfUserLogged()
     this.syncLocalStorage()
     console.log('adoptedPetsss', this.adoptedPets)
-    
   }
 })
 
